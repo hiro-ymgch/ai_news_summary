@@ -8,7 +8,7 @@ AI駆動開発ウォッチャー（AI-Driven Dev Intelligence Feeder）
 
 このリポジトリは、AI駆動型ソフトウェア開発（AI-assisted development）に関する国内外の最新動向を把握するための自動情報収集・要約・投稿システムを提供します。
 
-SNS（X, Reddit, LinkedIn, YouTube字幕など）上の投稿から、**特定のキーワード群に基づきクロール・抽出・要約・スコアリング**し、注目度の高いトピックを定期的にSlackへ投稿します。技術的には、GitHub Actionsを用いた定時ジョブによってPythonスクリプトを駆動し、Claudeやその他LLMを活用した要約処理を実施します。
+Reddit、YouTube、Hacker News、Dev.to などのメディア上の投稿から、**特定のキーワード群に基づきクロール・抽出・要約・スコアリング**し、注目度の高いトピックを定期的にSlackへ投稿します。GitHub Actionsを用いた定時ジョブでPythonスクリプトを駆動し、Claudeを活用した要約処理を行います。
 
 ---
 
@@ -28,33 +28,27 @@ Claudeは、本プロジェクトにおいて以下の知的補助を担いま�
 
 1. **データ収集（Fetch）**
 
-   * X (旧Twitter)：APIまたは非公式手段でキーワードマッチ投稿を取得
-   * Reddit：特定subredditから新規/人気投稿をスクレイピング
-   * LinkedIn：特定アカウントやハッシュタグの新着投稿を対象
-   * YouTube（補助的）：自動字幕経由で抽出し要約
+   * Reddit：特定subredditから新規/人気投稿をAPIまたはRSSで取得
+   * YouTube：開発関連チャンネルの自動字幕を取得し要約対象に
+   * Hacker News：RSSから新着・人気記事を取得
+   * Dev.to：RSSを通じてAI関連タグ付き記事を取得
 
 2. **フィルタリング（Filter）**
 
    * `keywords.txt` をもとに収集対象投稿を選定
-   * キーワードは技術名（例："Cursor", "Claude Code"）や分類語（"AI-assisted dev", "Dev Automation"）を含む
+   * キーワードは技術名や分類語を含む
 
 3. **クラスタリング（Cluster）**
 
-   * 類似内容（例：同じツールに関する複数投稿）を1トピックに集約
+   * 類似内容を1トピックに集約
 
 4. **ランキング（Score）**
 
    * スコア = 投稿件数 + エンゲージメント指標（いいね数/コメント数 × 重み）
-   * 上位10トピックを選定
 
 5. **Claude要約（Summarize）**
 
-   * 各トピックについて、以下をまとめた自然言語出力を生成：
-
-     * 何が起きたか（What）
-     * それがなぜ注目されているか（Why）
-     * 誰が発信したか（Who）
-     * どのような技術/文脈か（How）
+   * トピックごとにWhat/Why/Who/Howを要約しMarkdown形式で整形
 
 6. **出力フォーマット（Format）**
    Claudeは以下のMarkdownスタイルで整形してください：
@@ -66,11 +60,11 @@ Claudeは、本プロジェクトにおいて以下の知的補助を担いま�
 
    Claude Code による自動PRレビュー (Score: 87)
    ClaudeがGitHub Actionsでコードを要約し、自動でPRを生成する仕組みが公開
-   出典: https://x.com/example1
+   出典: https://reddit.com/example1
 
    FigmaプラグインでUI自動生成 (Score: 79)
    テキストプロンプトからFigmaコンポーネントを生成するAI拡張が話題に
-   出典: https://linkedin.com/example2
+   出典: https://dev.to/example2
    ```
 
 ---
@@ -88,7 +82,7 @@ Claudeは、本プロジェクトにおいて以下の知的補助を担いま�
 
 ## スケジューリング仕様（Job Schedule）
 
-* 実行頻度：1日2回（日本時間午前8時 / 日本時間午後8時）
+* 実行頻度：1日2回（午前8時 / 午後8時）
 * 実行方式：GitHub Actions の cron により自動実行
 * 出力先：Slackの `#ai-dev-watch` チャンネル（Webhook 経由）
 
@@ -97,11 +91,12 @@ Claudeは、本プロジェクトにおいて以下の知的補助を担いま�
 ## 使用技術・管理体制
 
 * 言語：Python 3.11
-* API連携：
+* API/RSS連携：
 
-  * X (旧Twitter) API（非公式またはOAuth2）
-  * Reddit API
-  * YouTube Data API（字幕取得）
+  * Reddit API またはRSS
+  * YouTube Data API + 字幕処理
+  * Hacker News RSS
+  * Dev.to RSS
 * LLM：Claude 3 Sonnet または Opus
 * Secrets管理：GitHub Secrets または `.env`
 * キーワードファイル：`keywords.txt` にて管理・随時更新
