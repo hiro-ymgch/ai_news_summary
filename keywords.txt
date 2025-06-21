@@ -1,0 +1,63 @@
+🔧 ツール・サービス
+
+Claude
+Claude Code
+Cursor
+Figma AI
+GitHub Copilot
+BOLT.NEW
+Sweep AI
+CodeWhisperer
+Continue
+Tabnine
+Codium
+
+🤖 モデル・基盤技術
+
+LLM
+GPT-4o
+Claude 3
+Mistral
+Gemini
+Code LLM
+Function calling
+Agentic workflows
+
+🏗️ 機能・ワークフロー
+
+AI PR Review
+Auto Pull Request
+Prompt-to-Code
+Prompt-driven Dev
+AI-powered UI
+Spec-to-Code
+Design-to-Code
+Test generation
+Refactor automation
+DevOps with LLM
+CI/CD automation
+Pair programming with AI
+
+📚 その他の重要語
+
+AI駆動開発
+AI-assisted development
+AI開発
+AIエンジニアリング
+AI x 開発
+開発自動化
+ソフトウェア自動生成
+プロンプトエンジニアリング
+プロンプト駆動開発
+
+🏷️ ハッシュタグ
+
+#AIDevelopment
+#AIEngineer
+#AIdev
+#PromptEngineering
+#DevAutomation
+#LLMDev
+#ClaudeCode
+#GitHubCopilot
+#AItools
